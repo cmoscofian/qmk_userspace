@@ -5,6 +5,8 @@
 .DS_Store
 ._*
 
+macros.h
+
 # Firmware files
 *.hex
 *.bin
