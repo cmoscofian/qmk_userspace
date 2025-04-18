@@ -1,1 +1,1 @@
-AUTO_SHIFT_ENABLE = yes
+WPM_ENABLE			= yes

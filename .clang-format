@@ -1,30 +1,24 @@
 ---
-BasedOnStyle: Google
-AlignAfterOpenBracket: Align
-AlignConsecutiveAssignments: 'true'
-AlignConsecutiveDeclarations: 'true'
-AlignOperands: 'true'
-AllowAllParametersOfDeclarationOnNextLine: 'false'
-AllowShortCaseLabelsOnASingleLine: 'false'
-AllowShortFunctionsOnASingleLine: Empty
-AllowShortLoopsOnASingleLine: 'false'
-AlwaysBreakAfterDefinitionReturnType: None
-AlwaysBreakAfterReturnType: None
-AlwaysBreakBeforeMultilineStrings: 'false'
-BinPackArguments: 'true'
-BinPackParameters: 'true'
-ColumnLimit: '1000'
-IndentCaseLabels: 'true'
-IndentPPDirectives: AfterHash
-IndentWidth: '4'
-MaxEmptyLinesToKeep: '1'
-PointerAlignment: Right
-SortIncludes: 'false'
-SpaceBeforeAssignmentOperators: 'true'
-SpaceBeforeParens: ControlStatements
-SpaceInEmptyParentheses: 'false'
-SpacesBeforeTrailingComments: 1
-TabWidth: '4'
-UseTab: Never
+AlignArrayOfStructures: Right
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossComments: true
+  AcrossEmptyLines: false
+AlignConsecutiveDeclarations:
+  Enabled: true
+  AcrossComments: true
+  AcrossEmptyLines: false
+AllowShortEnumsOnASingleLine: false
+AlwaysBreakAfterReturnType: AllDefinitions
+BraceWrapping:
+  AfterFunction: true
+BreakBeforeBraces: Linux
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowAllArgumentsOnNextLine: true
+IndentGotoLabels: false
+IndentWidth: 4
+Language: Cpp
+TabWidth: 4
+UseTab: ForIndentation
 
-...
+# vim: ft=yaml
