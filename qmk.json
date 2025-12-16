@@ -1,9 +1,13 @@
 {
-    "userspace_version": "1.0",
-    "build_targets": [
-        [
-            "crkbd/r2g",
-            "cmoscofian"
-        ]
-    ]
+	"userspace_version": "1.0",
+	"build_targets": [
+		[
+			"crkbd/r2g",
+			"cmoscofian"
+		],
+		[
+			"bastardkb/charybdis/3x5",
+			"cmoscofian"
+		]
+	]
 }
