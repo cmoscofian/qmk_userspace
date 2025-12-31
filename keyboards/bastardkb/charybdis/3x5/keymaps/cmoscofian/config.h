@@ -34,6 +34,8 @@
 /* Charybdis-specific features. */
 
 #ifdef POINTING_DEVICE_ENABLE
+# define CHARYBDIS_DEFAULT_DPI_CONFIG_STEP 300
+# define CHARYBDIS_MINIMUM_DEFAULT_DPI     300
 // Automatically enable the pointer layer when moving the trackball.  See also:
 // - `CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS`
 // - `CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD`

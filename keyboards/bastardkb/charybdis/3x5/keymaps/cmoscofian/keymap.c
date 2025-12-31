@@ -29,7 +29,12 @@
 /* Regular settings */
 enum custom_keycodes {
 	X_MCR_1 = SAFE_RANGE,
-	X_MCR_2
+	X_MCR_2,
+	X_PTR_1,
+	X_PTR_2,
+	X_PTR_3,
+	X_PTR_4,
+	X_PTR_5
 };
 
 #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
@@ -117,16 +122,16 @@ const uint16_t PROGMEM keymaps[SIZE][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
         KC_MPRV, KC_MPLY, KC_MPLY, KC_MNXT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-        UG_TOGG, UG_NEXT, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, XXXXXXX,
+        UG_TOGG, UG_NEXT, UG_PREV, XXXXXXX, XXXXXXX,                      KC_HOME, KC_PGDN, KC_PGUP,  KC_END, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------|  |--------|--------+--------+--------+--------+--------|
                                    _______, _______, _______,    _______, _______
                                //|--------+--------+--------|  |--------+--------|
     ),
     [POINTER] = LAYOUT_split_3x5(
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-        DPI_MOD,DPI_RMOD, MS_ACL0, MS_ACL1, MS_ACL2,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        X_PTR_1, X_PTR_2, X_PTR_3, X_PTR_4, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     //|--------+---------+--------+-------+--------|                    |--------+--------+--------+--------+--------|
-        S_D_MOD,S_D_RMOD, DRGSCRL, SNIPING, XXXXXXX,                      XXXXXXX, MS_BTN1, MS_BTN3, MS_BTN2, XXXXXXX,
+        X_PTR_5, XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX,                      XXXXXXX, MS_BTN1, MS_BTN3, MS_BTN2, XXXXXXX,
     //|--------+---------+--------+-------+--------|                    |--------+--------+--------+--------+--------|
         XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      MS_WHLL, MS_WHLD, MS_WHLU, MS_WHLR, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------|  |--------|--------+--------+--------+--------+--------|
@@ -141,12 +146,32 @@ process_record_user(uint16_t keycode, keyrecord_t *record)
 	switch (keycode) {
 	case X_MCR_1:
 		if (!record->event.pressed)
-			SEND_STRING_DELAY(MCR_1, 5);
+			SEND_STRING_DELAY(MCR_1, 8);
 		break;
 	case X_MCR_2:
 		if (!record->event.pressed)
-			SEND_STRING_DELAY(MCR_2, 5);
+			SEND_STRING_DELAY(MCR_2, 8);
 		break;
+	case X_PTR_1:
+		if (record->event.pressed && is_keyboard_master())
+			charybdis_set_pointer_pointer_default_dpi(0);
+		return false;
+	case X_PTR_2:
+		if (record->event.pressed && is_keyboard_master())
+			charybdis_set_pointer_pointer_default_dpi(1);
+		return false;
+	case X_PTR_3:
+		if (record->event.pressed && is_keyboard_master())
+			charybdis_set_pointer_pointer_default_dpi(2);
+		return false;
+	case X_PTR_4:
+		if (record->event.pressed && is_keyboard_master())
+			charybdis_set_pointer_pointer_default_dpi(3);
+		return false;
+	case X_PTR_5:
+		if (record->event.pressed && is_keyboard_master())
+			pointing_device_set_cpi(100);
+		return false;
 	}
 	return true;
 }
