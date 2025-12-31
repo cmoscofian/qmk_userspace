@@ -116,11 +116,11 @@ process_record_user(uint16_t keycode, keyrecord_t *record)
 	switch (keycode) {
 	case X_MCR_1:
 		if (!record->event.pressed)
-			SEND_STRING(MCR_1);
+			SEND_STRING_DELAY(MCR_1, 8);
 		break;
 	case X_MCR_2:
 		if (!record->event.pressed)
-			SEND_STRING(MCR_2);
+			SEND_STRING_DELAY(MCR_2, 8);
 		break;
 	case KC_SPC:
 		if (record->event.pressed) {
