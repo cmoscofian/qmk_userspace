@@ -27,12 +27,6 @@
 #define ALT_K   MT(MOD_LALT, KC_K)
 #define CTL_J   MT(MOD_RCTL, KC_J)
 
-/* Regular settings */
-enum custom_keycodes {
-	X_MCR_1 = SAFE_RANGE,
-	X_MCR_2,
-};
-
 #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 #    include "timer.h"
 #endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
@@ -92,7 +86,7 @@ const uint16_t PROGMEM keymaps[SIZE][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [ALT] = LAYOUT_charybdis_3x5(
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-        XXXXXXX, XXXXXXX, XXXXXXX, X_MCR_2, X_MCR_1,                      KC_VOLD, KC_MUTE, KC_MPLY, KC_VOLU,  EE_CLR,
+        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_VOLD, KC_MUTE, KC_MPLY, KC_VOLU,  EE_CLR,
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
         KC_MPRV, KC_MPLY, KC_MPLY, KC_MNXT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
@@ -113,19 +107,3 @@ const uint16_t PROGMEM keymaps[SIZE][MATRIX_ROWS][MATRIX_COLS] = {
                                //|--------+--------+--------|  |--------+--------|
     )
 };
-
-bool
-process_record_user(uint16_t keycode, keyrecord_t *record)
-{
-	switch (keycode) {
-	case X_MCR_1:
-		if (!record->event.pressed)
-			SEND_STRING_DELAY(MCR_1, 8);
-		break;
-	case X_MCR_2:
-		if (!record->event.pressed)
-			SEND_STRING_DELAY(MCR_2, 8);
-		break;
-	}
-	return true;
-}
