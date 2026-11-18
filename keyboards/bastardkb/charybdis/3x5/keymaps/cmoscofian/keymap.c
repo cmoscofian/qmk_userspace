@@ -1,5 +1,5 @@
 /**
- +--------* Copyright 2021 Charly Delay <charly@codesink.dev> (@0xcharly)
+ * Copyright 2021 Charly Delay <charly@codesink.dev> (@0xcharly)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include QMK_KEYBOARD_H
+#include "bk_pointing_modes.h"
 #include "macros.h"
 
 #define SFT_S   MT(MOD_LSFT, KC_S)
@@ -30,11 +31,6 @@
 enum custom_keycodes {
 	X_MCR_1 = SAFE_RANGE,
 	X_MCR_2,
-	X_PTR_1,
-	X_PTR_2,
-	X_PTR_3,
-	X_PTR_4,
-	X_PTR_5
 };
 
 #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
@@ -50,28 +46,6 @@ enum charybdis_keymap_layers {
 	SIZE,
 };
 
-// Automatically enable sniping-mode on the pointer layer.
-#define CHARYBDIS_AUTO_SNIPING_ON_LAYER POINTER
-
-#ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-static uint16_t auto_pointer_layer_timer = 0;
-
-#    ifndef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS
-#        define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS 1000
-#    endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS
-
-#    ifndef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD
-#        define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD 8
-#    endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD
-#endif     // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-
-#ifndef POINTING_DEVICE_ENABLE
-#    define DRGSCRL KC_NO
-#    define DPI_MOD KC_NO
-#    define S_D_MOD KC_NO
-#    define SNIPING KC_NO
-#endif // !POINTING_DEVICE_ENABLE
-
 /*
  * Layers used on the Charybdis Nano.
  *
@@ -83,7 +57,7 @@ static uint16_t auto_pointer_layer_timer = 0;
  */
 
 const uint16_t PROGMEM keymaps[SIZE][MATRIX_ROWS][MATRIX_COLS] = {
-    [BASE] = LAYOUT_split_3x5(
+    [BASE] = LAYOUT_charybdis_3x5(
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
            KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
@@ -91,10 +65,10 @@ const uint16_t PROGMEM keymaps[SIZE][MATRIX_ROWS][MATRIX_COLS] = {
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
            KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,
     //|--------+--------+--------+--------+--------+--------|  |--------|--------+--------+--------+--------+--------|
-                         MO(POINTER), LT(SYM, KC_ESC), KC_BSPC,   KC_ENT,  LT(NUM, KC_SPC)
+                       MO(POINTER), LT(SYM, KC_ESC), KC_BSPC,     KC_ENT,    LT(NUM, KC_SPC)
                                //|--------+--------+--------|  |--------+--------|
     ),
-    [NUM] = LAYOUT_split_3x5(
+    [NUM] = LAYOUT_charybdis_3x5(
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
            KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
@@ -105,7 +79,7 @@ const uint16_t PROGMEM keymaps[SIZE][MATRIX_ROWS][MATRIX_COLS] = {
                                    _______, MO(ALT), _______,    _______, _______
                                //|--------+--------+--------|  |--------+--------|
     ),
-    [SYM] = LAYOUT_split_3x5(
+    [SYM] = LAYOUT_charybdis_3x5(
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
          KC_TAB, KC_LABK, KC_RABK, KC_UNDS,  KC_DEL,                      KC_ASTR,  KC_EQL, KC_LPRN, KC_RPRN, KC_QUOT,
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
@@ -116,9 +90,9 @@ const uint16_t PROGMEM keymaps[SIZE][MATRIX_ROWS][MATRIX_COLS] = {
                                    _______, _______, _______,    _______, MO(ALT)
                                //|--------+--------+--------|  |--------+--------|
     ),
-    [ALT] = LAYOUT_split_3x5(
+    [ALT] = LAYOUT_charybdis_3x5(
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-        XXXXXXX, XXXXXXX, XXXXXXX, X_MCR_2, X_MCR_1,                      KC_VOLD, KC_MUTE, KC_MPLY, KC_VOLU, XXXXXXX,
+        XXXXXXX, XXXXXXX, XXXXXXX, X_MCR_2, X_MCR_1,                      KC_VOLD, KC_MUTE, KC_MPLY, KC_VOLU,  EE_CLR,
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
         KC_MPRV, KC_MPLY, KC_MPLY, KC_MNXT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP, KC_RGHT, XXXXXXX,
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
@@ -127,13 +101,13 @@ const uint16_t PROGMEM keymaps[SIZE][MATRIX_ROWS][MATRIX_COLS] = {
                                    _______, _______, _______,    _______, _______
                                //|--------+--------+--------|  |--------+--------|
     ),
-    [POINTER] = LAYOUT_split_3x5(
+    [POINTER] = LAYOUT_charybdis_3x5(
     //|--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------|
-        X_PTR_1, X_PTR_2, X_PTR_3, X_PTR_4, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        DRGSCRL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
     //|--------+---------+--------+-------+--------|                    |--------+--------+--------+--------+--------|
-        X_PTR_5, XXXXXXX, XXXXXXX, DRGSCRL, XXXXXXX,                      XXXXXXX, MS_BTN1, MS_BTN3, MS_BTN2, XXXXXXX,
+        DRGSCRL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, MS_BTN1, MS_BTN3, MS_BTN2, XXXXXXX,
     //|--------+---------+--------+-------+--------|                    |--------+--------+--------+--------+--------|
-        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      MS_WHLL, MS_WHLD, MS_WHLU, MS_WHLR, XXXXXXX,
+        DRGSCRL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      MS_WHLL, MS_WHLD, MS_WHLU, MS_WHLR, XXXXXXX,
     //|--------+--------+--------+--------+--------+--------|  |--------|--------+--------+--------+--------+--------|
                                    _______, _______, _______,    MS_BTN1, MS_BTN2
                                //|--------+--------+--------|  |--------+--------|
@@ -152,67 +126,6 @@ process_record_user(uint16_t keycode, keyrecord_t *record)
 		if (!record->event.pressed)
 			SEND_STRING_DELAY(MCR_2, 8);
 		break;
-	case X_PTR_1:
-		if (record->event.pressed && is_keyboard_master())
-			charybdis_set_pointer_pointer_default_dpi(0);
-		return false;
-	case X_PTR_2:
-		if (record->event.pressed && is_keyboard_master())
-			charybdis_set_pointer_pointer_default_dpi(1);
-		return false;
-	case X_PTR_3:
-		if (record->event.pressed && is_keyboard_master())
-			charybdis_set_pointer_pointer_default_dpi(2);
-		return false;
-	case X_PTR_4:
-		if (record->event.pressed && is_keyboard_master())
-			charybdis_set_pointer_pointer_default_dpi(3);
-		return false;
-	case X_PTR_5:
-		if (record->event.pressed && is_keyboard_master())
-			pointing_device_set_cpi(100);
-		return false;
 	}
 	return true;
 }
-
-#ifdef POINTING_DEVICE_ENABLE
-#    ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-    if (abs(mouse_report.x) > CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD || abs(mouse_report.y) > CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD) {
-        if (auto_pointer_layer_timer == 0) {
-            layer_on(LAYER_POINTER);
-#        ifdef RGB_MATRIX_ENABLE
-            rgb_matrix_mode_noeeprom(RGB_MATRIX_NONE);
-            rgb_matrix_sethsv_noeeprom(HSV_GREEN);
-#        endif // RGB_MATRIX_ENABLE
-        }
-        auto_pointer_layer_timer = timer_read();
-    }
-    return mouse_report;
-}
-
-void matrix_scan_user(void) {
-    if (auto_pointer_layer_timer != 0 && TIMER_DIFF_16(timer_read(), auto_pointer_layer_timer) >= CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS) {
-        auto_pointer_layer_timer = 0;
-        layer_off(LAYER_POINTER);
-#        ifdef RGB_MATRIX_ENABLE
-        rgb_matrix_mode_noeeprom(RGB_MATRIX_DEFAULT_MODE);
-#        endif // RGB_MATRIX_ENABLE
-    }
-}
-#    endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
-
-#    ifdef CHARYBDIS_AUTO_SNIPING_ON_LAYER
-layer_state_t layer_state_set_user(layer_state_t state) {
-    charybdis_set_pointer_sniping_enabled(layer_state_cmp(state, CHARYBDIS_AUTO_SNIPING_ON_LAYER));
-    return state;
-}
-#    endif // CHARYBDIS_AUTO_SNIPING_ON_LAYER
-#endif     // POINTING_DEVICE_ENABLE
-
-#ifdef RGB_MATRIX_ENABLE
-// Forward-declare this helper function since it is defined in
-// rgb_matrix.c.
-void rgb_matrix_update_pwm_buffers(void);
-#endif
